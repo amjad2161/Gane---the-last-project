@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no" />
+<meta name="theme-color" content="#0b1220" />
+<meta name="description" content="GANE NAV — next-generation worldwide navigation and location system." />
+<title>GANE NAV — Next-Generation Navigation</title>
+<link rel="manifest" href="manifest.webmanifest" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><circle cx='32' cy='32' r='30' fill='%2300d4ff'/><text x='50%25' y='56%25' font-family='Arial' font-size='28' font-weight='bold' fill='%230b1220' text-anchor='middle'>G</text></svg>" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.css" />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<div id="app">
+  <aside id="sidebar" class="sidebar">
+    <header class="brand">
+      <div class="logo">G</div>
+      <div>
+        <h1>GANE NAV</h1>
+        <p class="tagline">Worldwide navigation, reimagined.</p>
+      </div>
+    </header>
+
+    <section class="search">
+      <div class="field">
+        <span class="dot dot-from"></span>
+        <input id="from" type="text" placeholder="From — current location" autocomplete="off" />
+        <button class="icon-btn" id="useMyLocation" title="Use my location">⌖</button>
+      </div>
+      <div class="field">
+        <span class="dot dot-to"></span>
+        <input id="to" type="text" placeholder="To — where to?" autocomplete="off" />
+        <button class="icon-btn" id="swapBtn" title="Swap">⇅</button>
+      </div>
+
+      <div class="modes" role="tablist" aria-label="Travel modes">
+        <button class="mode active" data-profile="driving" title="Drive">🚗</button>
+        <button class="mode" data-profile="cycling" title="Bike">🚴</button>
+        <button class="mode" data-profile="foot" title="Walk">🚶</button>
+        <button class="mode" data-profile="transit" title="Transit">🚆</button>
+      </div>
+
+      <div class="actions">
+        <button id="goBtn" class="primary">Go</button>
+        <button id="clearBtn" class="ghost">Clear</button>
+      </div>
+
+      <div id="suggestions" class="suggestions" hidden></div>
+    </section>
+
+    <section id="routeSummary" class="route-summary" hidden>
+      <div class="summary-row">
+        <div>
+          <div class="eta" id="eta">—</div>
+          <div class="distance" id="distance">—</div>
+        </div>
+        <div class="badges">
+          <span class="badge" id="trafficBadge">Live traffic</span>
+          <span class="badge ok" id="ecoBadge">Eco</span>
+        </div>
+      </div>
+      <div id="alternatives" class="alternatives"></div>
+      <ol id="steps" class="steps"></ol>
+    </section>
+
+    <section class="quickactions">
+      <button class="chip" data-cat="fuel">⛽ Fuel</button>
+      <button class="chip" data-cat="restaurant">🍔 Food</button>
+      <button class="chip" data-cat="cafe">☕ Coffee</button>
+      <button class="chip" data-cat="hotel">🏨 Hotel</button>
+      <button class="chip" data-cat="hospital">🏥 Hospital</button>
+      <button class="chip" data-cat="atm">🏧 ATM</button>
+      <button class="chip" data-cat="parking">🅿 Parking</button>
+      <button class="chip" data-cat="charging_station">🔌 EV</button>
+    </section>
+
+    <footer class="footer">
+      <button id="voiceBtn" class="ghost" aria-pressed="false">🔊 Voice off</button>
+      <button id="darkBtn" class="ghost">🌙 Theme</button>
+      <button id="aboutBtn" class="ghost">ℹ About</button>
+    </footer>
+  </aside>
+
+  <main id="mapWrap">
+    <div id="map" role="application" aria-label="Interactive world map"></div>
+
+    <div class="floating top-right">
+      <button class="float-btn" id="layerBtn" title="Map style">🗺</button>
+      <button class="float-btn" id="trafficBtn" title="Traffic overlay">🚦</button>
+      <button class="float-btn" id="satBtn" title="Satellite">🛰</button>
+      <button class="float-btn" id="threeDBtn" title="3D view">3D</button>
+    </div>
+
+    <div class="floating bottom-right">
+      <button class="float-btn" id="locateBtn" title="Recenter">⌖</button>
+      <button class="float-btn" id="zoomInBtn" title="Zoom in">+</button>
+      <button class="float-btn" id="zoomOutBtn" title="Zoom out">−</button>
+    </div>
+
+    <div id="banner" class="banner" hidden></div>
+    <div id="speedBadge" class="speed-badge" hidden>
+      <div class="sb-num" id="speedNum">0</div>
+      <div class="sb-unit">km/h</div>
+    </div>
+  </main>
+</div>
+
+<dialog id="aboutDlg">
+  <h2>GANE NAV</h2>
+  <p>The next-generation navigation and location platform — engineered for the world.</p>
+  <ul>
+    <li>Worldwide map coverage via OpenStreetMap</li>
+    <li>Multi-modal routing: drive, bike, walk, transit</li>
+    <li>Live geocoding & nearby search</li>
+    <li>Traffic-aware ETAs, eco routing</li>
+    <li>Voice guidance, dark mode, offline-ready PWA</li>
+    <li>3D, satellite & terrain layers</li>
+  </ul>
+  <form method="dialog"><button class="primary">Close</button></form>
+</dialog>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.js"></script>
+<script src="app.js" defer></script>
+</body>
+</html>
